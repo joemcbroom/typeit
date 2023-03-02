@@ -836,10 +836,16 @@ const DynamicElementComponent = forwardRef((props, ref) => {
   const { as: As } = props;
   return /* @__PURE__ */ React.createElement(As, { ref, ...props });
 });
-const TypeIt = (props) => {
+const TypeIt = ({
+  options = {},
+  children,
+  getBeforeInit = defaultProps.getBeforeInit,
+  getAfterInit = defaultProps.getAfterInit,
+  as = defaultProps.as,
+  ...remainingProps
+}) => {
   const elementRef = useRef(null);
   const instanceRef = useRef(null);
-  const { options, children, getBeforeInit, getAfterInit, ...remainingProps } = props;
   const [shouldShowChildren, setShouldShowChildren] = useState(true);
   const [instanceOptions, setInstanceOptions] = useState(null);
   function calculateOptions() {
@@ -877,11 +883,11 @@ const TypeIt = (props) => {
       ref: elementRef,
       children: shouldShowChildren ? children : null,
       style: { opacity: shouldShowChildren ? 0 : 1 },
+      as,
       ...remainingProps
     }
   );
 };
-TypeIt.defaultProps = defaultProps;
 export {
   TypeIt as default
 };
