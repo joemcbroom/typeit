@@ -23,11 +23,16 @@ const DynamicElementComponent = forwardRef((props: any, ref) => {
   return <As ref={ref} {...props} />;
 });
 
-const TypeIt: React.FunctionComponent<TypeItProps> = (props: TypeItProps) => {
+const TypeIt: React.FunctionComponent<TypeItProps> = ({
+  options = {},
+  children,
+  getBeforeInit = defaultProps.getBeforeInit,
+  getAfterInit = defaultProps.getAfterInit,
+  as = defaultProps.as,
+  ...remainingProps
+}: TypeItProps) => {
   const elementRef = useRef(null);
   const instanceRef = useRef(null);
-  const { options, children, getBeforeInit, getAfterInit, ...remainingProps } =
-    props;
   const [shouldShowChildren, setShouldShowChildren] = useState<boolean>(true);
   const [instanceOptions, setInstanceOptions] = useState(null);
 
@@ -84,11 +89,10 @@ const TypeIt: React.FunctionComponent<TypeItProps> = (props: TypeItProps) => {
       ref={elementRef}
       children={shouldShowChildren ? children : null}
       style={{ opacity: shouldShowChildren ? 0 : 1 }}
+      as={as}
       {...remainingProps}
     />
   );
 };
-
-TypeIt.defaultProps = defaultProps;
 
 export default TypeIt;
